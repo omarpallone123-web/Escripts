@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Erscript – Trick or Script?</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#0D0B10;--sf:#17131B;--sf2:#211b28;--or:#FF7518;--pu:#8B45C6;--tx:#fff;--mu:#a9a1b3;--bd:#2c2535;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-padding-top:calc(60px + env(safe-area-inset-top,0px));-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:500;line-height:1.4}
+body.lock{overflow:hidden}button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer;background:none;border:0}a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--or);outline-offset:2px}
+svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:0}
+nav.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;height:56px;display:flex;align-items:center;gap:4px;padding:0 8px;background:rgba(13,11,16,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:rgba(13,11,16,.92);z-index:31}
+.ib{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;color:#e9e4ef;position:relative}.ib:hover{background:var(--sf2)}
+.logo{font-weight:800;font-size:21px;letter-spacing:-.5px;margin-right:auto;padding:0 4px}.logo b{color:var(--or)}
+.av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--or),var(--pu));display:grid;place-items:center;font-weight:800;font-size:13px}
+.badge{position:absolute;top:3px;right:3px;min-width:16px;height:16px;border-radius:8px;background:#e5252a;font-size:10px;display:grid;place-items:center;font-weight:800}
+.hide-s{display:none}@media(min-width:520px){.hide-s{display:grid}}
+#ov{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .25s;z-index:40}
+#ov.on{opacity:1;pointer-events:auto}
+#sb{position:fixed;top:0;bottom:0;left:0;width:72%;max-width:340px;background:#120f16;border-right:1px solid var(--bd);z-index:41;transform:translateX(-102%);transition:transform .28s cubic-bezier(.3,.8,.3,1);display:flex;flex-direction:column;padding:calc(18px + env(safe-area-inset-top,0px)) 14px calc(14px + env(safe-area-inset-bottom,0px));overflow-y:auto}
+#sb.on{transform:none}
+.sbu{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:16px}.sbu .av{width:64px;height:64px;font-size:26px}
+.nl{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:12px;margin-bottom:4px;color:#d9d3e0}
+.nl:hover{background:var(--sf2)}.nl.act{background:#3a3345;color:var(--or)}
+.sub{margin:14px 0;background:var(--or);color:#1a0d00;font-weight:800;border-radius:14px;padding:14px;text-align:center}
+.sbf{margin-top:auto;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--mu);padding-top:12px;border-top:1px solid var(--bd)}.sbf p{width:100%;margin:6px 0 0;font-size:12px}
+main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:12px 12px 24px}
+.demo{background:#2a1a08;border:1px solid #5a3510;color:#ffc994;border-radius:10px;padding:8px 12px;font-size:13px;margin-bottom:12px}
+h1{font-size:clamp(28px,7vw,46px);line-height:1.05;margin:8px 0 4px;font-weight:800;letter-spacing:-1px}
+.sub2{color:var(--mu);margin:0 0 14px}
+.sec{display:flex;align-items:baseline;justify-content:space-between;margin:22px 0 10px}.sec h2{margin:0;font-size:20px;font-weight:800}.sec a{color:var(--or);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}@media(min-width:980px){.grid{grid-template-columns:repeat(4,1fr)}}
+body.cmp .grid{grid-template-columns:1fr}@media(min-width:700px){body.cmp .grid{grid-template-columns:repeat(2,1fr)}}
+.card{display:block;background:var(--sf);border:1px solid var(--bd);border-radius:14px;overflow:hidden;transition:border-color .2s,box-shadow .2s,transform .2s}
+.card:hover,.card:focus-visible{border-color:var(--or);box-shadow:0 0 18px rgba(255,117,24,.25);transform:translateY(-2px)}
+.th{aspect-ratio:16/9;display:grid;place-items:center;font-size:34px;position:relative}
+.pill{position:absolute;top:6px;left:6px;font-size:10px;font-weight:800;padding:2px 7px;border-radius:8px;background:var(--pu)}
+.cb{padding:8px 10px 10px}.gn{color:var(--or);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ct{font-weight:800;font-size:14px;line-height:1.2;margin:2px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cr{font-size:12px;color:var(--mu)}.vb{color:#6cb4ff;font-size:11px}
+.st{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--mu);margin-top:6px;flex-wrap:wrap}.st span{display:inline-flex;gap:3px;align-items:center}.st svg{width:13px;height:13px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none}.chip{flex:none;padding:6px 12px;border-radius:20px;border:1px solid var(--bd);background:var(--sf);font-size:13px}.chip.on{background:var(--or);color:#1a0d00;border-color:var(--or);font-weight:800}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.in{flex:1;min-width:160px;background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:10px 12px;width:100%}.in:focus{border-color:var(--or);outline:0}
+select.in{flex:none;width:auto}textarea.in{min-height:90px}
+.btn{background:var(--or);color:#1a0d00;font-weight:800;padding:10px 16px;border-radius:12px;display:inline-flex;gap:6px;align-items:center}.btn.g{background:var(--sf2);color:var(--tx);border:1px solid var(--bd)}.btn.on{background:var(--pu);color:#fff}
+.pg{display:flex;gap:6px;justify-content:center;margin:18px 0}.pg button{min-width:36px;height:36px;border-radius:10px;border:1px solid var(--bd);background:var(--sf)}.pg .on{background:var(--or);color:#1a0d00;border-color:var(--or)}
+.box{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:14px;margin:12px 0}.box h3{margin:0 0 8px}
+.empty{text-align:center;padding:40px 12px;color:var(--mu)}.err{border-color:#a33;color:#ffb3b3}
+.sk{height:150px;border-radius:14px;background:linear-gradient(90deg,var(--sf),var(--sf2),var(--sf));background-size:200% 100%;animation:sh 1.2s infinite}@keyframes sh{to{background-position:-200% 0}}
+pre.code{background:#0a080d;border:1px solid var(--bd);border-radius:12px;padding:12px;overflow-x:auto;font:13px/1.5 ui-monospace,Menlo,monospace;margin:0}
+.k{color:#c58af0}.s{color:#ffb070}.c{color:#6f6780}.n{color:#7ad0a0}
+.pop{position:fixed;top:calc(58px + env(safe-area-inset-top,0px));right:8px;width:min(320px,calc(100vw - 16px));background:var(--sf);border:1px solid var(--bd);border-radius:14px;z-index:45;padding:6px;box-shadow:0 12px 40px #000a}
+.pop .it{display:block;width:100%;text-align:left;padding:10px;border-radius:10px;font-size:14px}.pop .it:hover{background:var(--sf2)}.pop small{display:block;color:var(--mu)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--pu);padding:10px 16px;border-radius:12px;z-index:60;font-weight:800}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.tag{font-size:11px;font-weight:800;padding:3px 8px;border-radius:8px;border:1px solid var(--bd)}.tag.w{border-color:#a33;color:#ffb3b3}.tag.ok{border-color:#2d7;color:#8fe8b5}
+img.av{object-fit:cover;background:var(--sf2)}footer{position:relative;z-index:1;border-top:1px solid var(--bd);padding:18px 12px 28px;text-align:center;color:var(--mu);font-size:13px}footer a{margin:0 8px}
+.vf{width:1.2em;height:1.2em;vertical-align:-.24em;margin-left:4px;flex:none;filter:drop-shadow(0 0 5px rgba(255,100,60,.55));animation:vgl 3s ease-in-out infinite}
+@keyframes vgl{50%{filter:drop-shadow(0 0 9px rgba(180,90,230,.85))}}
+.vf .gl{animation:vsp 3s ease-in-out infinite}@keyframes vsp{0%,60%,100%{opacity:0}75%{opacity:1}}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:6px 0 4px}@media(min-width:700px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:10px 12px}.stat b{display:block;font-size:22px;font-weight:800}.stat span{font-size:12px;color:var(--mu)}
+.crow{display:flex;gap:12px;align-items:center;padding:12px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style></head><body>
+<canvas id="fx" aria-hidden="true"></canvas>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="vg" gradientUnits="userSpaceOnUse" x1="3" y1="2" x2="21" y2="22"><stop offset="0" stop-color="#FFA830"/><stop offset=".5" stop-color="#FF4F8B"/><stop offset="1" stop-color="#8B45C6"/></linearGradient></defs></svg>
+<nav class="top" id="nav"></nav><div id="ov"></div><aside id="sb" aria-label="Menu"></aside><div id="pp"></div>
+<main id="app"></main><footer id="ft"></footer>
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const IC={menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',msg:'<path d="M4 5h16v11H9l-5 4z"/>',bell:'<path d="M6 16V11a6 6 0 0112 0v5l2 2H4zM10 21h4"/>',gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',home:'<path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/>',code:'<path d="M8 8l-5 4 5 4M16 8l5 4-5 4M14 5l-4 14"/>',game:'<rect x="2" y="7" width="20" height="11" rx="4"/><path d="M7 10v5M4.5 12.5h5M16 11h.01M18 14h.01"/>',hub:'<circle cx="12" cy="12" r="3"/><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M7 7l3 3M17 7l-3 3M7 17l3-3M17 17l-3-3"/>',tool:'<path d="M14 6a4 4 0 005 5l-9 9a2.100 2.100 0 01-3-3l9-9z"/>',users:'<circle cx="9" cy="8" r="3"/><path d="M3 20c0-4 3-6 6-6s6 2 6 6M17 5a3 3 0 010 6M21 19c0-3-2-5-4-5.500"/>',eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',heart:'<path d="M12 20s-8-5-8-11a4.500 4.500 0 018-2.500A4.500 4.500 0 0120 9c0 6-8 11-8 11z"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',flag:'<path d="M5 21V4M5 4h12l-2 4 2 4H5"/>',copy:'<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 011-1h10"/>'};
+const ico=(n,c)=>`<svg class="i ${c||''}" viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
+/* ---- demo data (fictional) ---- */
+const GAMES=["Pumpkin Patch Tycoon","Haunted Hotel Escape","Graveyard Racers","Witch’s Brew Simulator","Ghost Town Defense","Candy Heist Night","Skeleton Arena","Midnight Manor","Bat Cave Miners","Cursed Carnival","Moonlit Fishing","Zombie Farm Wars"];
+const CRE=["NightOwl","CobwebCoder","LunaByte","GrimScripts","PumpkinKing","SpookyDev","MoonWitch","RavenLua"];
+const CATS=["Auto Farm","GUI","Utility","Visual","Teleport","Combat","Fun"];
+const EM=["🎃","🦇","👻","🕸️","🌙","💀","🧙","🕯️"];
+const FEAT=["Auto collect rewards","Clean toggle-based GUI","Adjustable speed slider","Anti-idle option","Save settings between sessions","Mobile-friendly layout"];
+const SCR=[];for(let i=0;i<32;i++){const g=GAMES[i%GAMES.length],c=CRE[(i*3)%CRE.length],cat=CATS[(i*5)%CATS.length];SCR.push({id:i+1,game:g,title:[`${cat} Panel`,`Easy ${cat} Pack`,`Ultimate ${cat} Menu`,`${cat} Helper v${1+i%4}`][i%4],creator:c,ver:i%3==0,cat,views:Math.round(900+((i*7919)%48000)),favs:Math.round(40+((i*263)%2600)),ago:(i*37)%2880+5,hue:(i*47)%360,em:EM[i%8],ok:i%5!=4})}
+const rel=m=>m<60?m+"m ago":m<1440?Math.floor(m/60)+"h ago":Math.floor(m/1440)+"d ago";
+const fmt=n=>n>=1e3?(n/1e3).toFixed(1)+"k":n;
+const HUBS=[];const HUBS0=["Moonlight Hub","Cobweb Central","Pumpkin Hub","Raven’s Nest","Crypt Keeper Hub","Lantern Lab"].map((n,i)=>({name:n,sub:`${3+i*2} games supported`,em:EM[i],hue:i*60,views:2000+i*3100,favs:200+i*180}));
+const TOOLS=[];const TOOLS0=[["Script Editor Notes","Guide","Info only: how to organize and comment your own scripts."],["Syntax Cheatsheet","Guide","Info only: Lua basics for Roblox."],["Obfuscation Myths","Guide","Info only: what it does and doesn’t protect."],["Third-party Executor X","Download","External software. Not hosted or verified by Erscript. Scan before running."],["Window Manager Tool","Download","External software. Not hosted or verified by Erscript. Scan before running."]].map((t,i)=>({name:t[0],kind:t[1],desc:t[2],em:EM[i+2],hue:i*70+20,views:900+i*1400,favs:80+i*60}));
+const COMM=[];const COMM0=["Share your Halloween build","Request a script","Bug reports","Creator showcase","Beginner questions","Event announcements"].map((n,i)=>({name:n,sub:`${12+i*9} demo threads`,em:EM[i],hue:i*55}));
+const NOTI=[["No notifications yet",""]];const NOTI0=[["New script from NightOwl","5m ago"],["Your submission is in review","2h ago"],["GrimScripts replied to your comment","1d ago"]];
+const S={fav:new Set(),notif:3,page:1,q:"",cat:"All",sort:"Newest",cm:{},open:null,cmp:false,fx:true};
+try{const v=JSON.parse(localStorage.getItem("ers")||"{}");(v.fav||[]).forEach(x=>S.fav.add(x));S.cmp=!!v.cmp;S.fx=v.fx!==false;S.acc=v.acc||"#FF7518";S.hp=!!v.hp}catch(e){}
+const save=()=>{try{localStorage.setItem("ers",JSON.stringify({fav:[...S.fav],cmp:S.cmp,fx:S.fx,acc:S.acc,hp:S.hp}))}catch(e){}};
+/* ---- chrome ---- */
+const LINKS=[["home","Home","#/"],["code","Scripts","#/scripts"],["game","Games","#/games"],["hub","Hubs","#/hubs"],["tool","Executors & Tools","#/tools"],["users","Creators","#/creators"],["msg","Community","#/community"],["gear","Settings","#/settings"]];
+$("#nav").innerHTML=`<button class="ib" id="bm" aria-label="Open menu">${ico("menu")}</button><a class="logo" href="#/"><b>Er</b>script</a><button class="ib" data-p="search" aria-label="Search">${ico("search")}</button><button class="ib" data-p="user" aria-label="User menu"><span class="av">?</span></button><button class="ib hide-s" data-p="msg" aria-label="Messages">${ico("msg")}</button><button class="ib" data-p="noti" aria-label="Notifications">${ico("bell")}<span class="badge" id="bd" style="display:none">0</span></button><button class="ib" data-p="set" aria-label="Settings">${ico("gear")}</button>`;
+const cur=()=>location.hash||"#/";
+function side(){$("#sb").innerHTML=`<div class="sbu">${avatar(ME)}<div><b>${esc(ME?ME.name:"Guest")}</b>${ME&&isVer(ME.u)?VB:""}</div>${ME?"":'<a class="btn g" href="#/login">Log in</a>'}</div>`+LINKS.map(l=>`<a class="nl ${cur()===l[2]||(l[2]==="#/scripts"&&cur().startsWith("#/script/"))?"act":""}" href="${l[2]}">${ico(l[0])}${l[1]}</a>`).join("")+`<a class="sub" href="#/submit">Submit Script →</a><div class="sbf"><a href="#/info/terms">Terms</a><a href="#/info/privacy">Privacy</a><a href="#/info/discord">Discord</a><a href="#/info/api">API</a><p>© 2026 Erscript. Not affiliated with Roblox Corporation.</p></div>`}
+function sb(o){side();$("#sb").classList.toggle("on",o);$("#ov").classList.toggle("on",o);document.body.classList.toggle("lock",o);$("#bm").setAttribute("aria-expanded",o)}
+$("#bm").onclick=()=>sb(!$("#sb").classList.contains("on"));
+$("#sb").addEventListener("click",e=>{if(e.target.closest("a"))sb(false)});
+$("#ov").onclick=()=>{sb(false);pop(null)};
+addEventListener("keydown",e=>{if(e.key==="Escape"){sb(false);pop(null)}});
+$("#ft").innerHTML=`<div><a href="#/info/terms">Terms</a><a href="#/info/privacy">Privacy</a><a href="#/info/discord">Discord</a><a href="#/info/api">API</a></div><p>© 2026 Erscript. Not affiliated with Roblox Corporation.</p>`;
+function toast(t){const d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),1800)}
+/* ---- popups ---- */
+function pop(k){if(k==="set"){location.hash="#/settings";k=null}const p=$("#pp");let h="";
+if(k==="noti"){h=notiHtml();markSeen()}
+else if(k==="msg")h=`<div class="it">No messages yet<small>Messages are a demo placeholder.</small></div>`;
+else if(k==="user")h=`${ME?`<a class="it" href="#/profile"><b>${esc(ME.name)}</b>${isVer(ME.u)?VB:""}<small>@${esc(ME.u)} · View profile</small></a>`:`<a class="it" href="#/login"><b>Log in or sign up</b><small>Needed to publish scripts</small></a>`}<a class="it" href="#/submit">Submit script</a><button class="it" data-go="favs">Favorites (${S.fav.size})</button><button class="it" data-p="set">Settings</button>${ME?'<button class="it" data-out="1">Log out</button>':""}`;
+else if(k==="set")h=`<div class="it"><label><input type="checkbox" id="s1" ${S.cmp?"checked":""}> Compact cards (one column)</label></div><div class="it"><label><input type="checkbox" id="s2" ${S.fx?"checked":""}> Floating particles</label></div>`;
+else if(k==="search"){h=`<div style="padding:6px"><input class="in" id="gs" placeholder="Script, game, creator or category" value="${esc(S.q)}" autocomplete="off"><div id="gr"></div></div>`}
+p.innerHTML=h?`<div class="pop" role="dialog">${h}</div>`:"";if(k==="noti")p.querySelectorAll("[data-ap]").forEach(b=>b.onclick=()=>decide(b.dataset.ap,b.dataset.d));
+if(k)$("#ov").classList.add("on");else if(!$("#sb").classList.contains("on"))$("#ov").classList.remove("on");
+if(k==="search"){const i=$("#gs");i.focus();const f=()=>{const r=match(i.value).slice(0,5);$("#gr").innerHTML=r.map(s=>`<a class="it" href="#/script/${s.id}">${esc(s.title)}<small>${esc(s.game)} · ${esc(s.creator)}</small></a>`).join("")||(i.value?`<div class="it">No matches</div>`:"");};i.oninput=f;f();i.onkeydown=e=>{if(e.key==="Enter"){S.q=i.value.trim();S.page=1;pop(null);location.hash="#/scripts";route()}}}
+if(k==="set"){$("#s1").onchange=e=>{S.cmp=e.target.checked;document.body.classList.toggle("cmp",S.cmp);save()};$("#s2").onchange=e=>{S.fx=e.target.checked;save()}}}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-p]");if(b){e.stopPropagation();pop(b.dataset.p);return}
+const g=e.target.closest("[data-go]");if(g){pop(null);if(g.dataset.go==="favs"){S.cat="Favorites";S.q="";location.hash="#/scripts";route()}return}
+if($("#pp").firstChild&&!e.target.closest(".pop"))pop(null);
+if(e.target.closest("a.pop .it, .pop a")) pop(null)});
+/* ---- cards ---- */
+const bg=h=>`background:linear-gradient(135deg,hsl(${h} 55% 22%),hsl(${(h+60)%360} 60% 12%))`;
+function card(s){const pop=(s.patched?'<span class="pill" style="background:#a33">Patched</span>':s.views>20000?'<span class="pill">Popular</span>':"")+(s.key?'<span class="pill" style="left:auto;right:6px;background:#a66a00">Key</span>':"");
+return `<a class="card" href="#/script/${s.id}"><div class="th" style="${s.img?`background:#000 url('${s.img}') center/cover`:bg(s.hue)}">${pop}${s.img?"":s.em}</div><div class="cb"><div class="gn">${esc(s.game)}</div><div class="ct">${esc(s.title)}</div><div class="cr">${esc(s.creator)}${isVer(s.creator)?VB:""}</div><div class="st"><span>${ico("eye")}${fmt(s.views)}</span><span>${ico("heart")}${fmt(s.favs)}</span><span>${rel(s.ago)}</span></div></div></a>`}
+function mini(x,hint){return `<div class="card"><div class="th" style="${bg(x.hue)}">${x.em}</div><div class="cb"><div class="gn">${esc(x.kind||hint||"")}</div><div class="ct">${esc(x.name)}</div><div class="cr">${esc(x.sub||x.desc||"")}</div></div></div>`}
+const grid=a=>!a.length?"":`<div class="grid">${a.join("")}</div>`;
+const sec=(t,l,h)=>!h?"":`<div class="sec"><h2>${t}</h2>${l?`<a href="${l}">See all</a>`:""}</div>${h}`;
+const by=(k,d)=>[...SCR].sort((a,b)=>d*(b[k]-a[k]));
+/* ---- search ---- */
+function match(q){q=q.toLowerCase().trim();return SCR.filter(s=>!q||[s.title,s.game,s.creator,s.cat].some(v=>v.toLowerCase().includes(q)))}
+const SORTS={"Newest":(a,b)=>a.ago-b.ago,"Trending":(a,b)=>b.views/(b.ago+60)-a.views/(a.ago+60),"Most Viewed":(a,b)=>b.views-a.views,"Most Favorited":(a,b)=>b.favs-a.favs,"Recently Updated":(a,b)=>a.ago-b.ago};
+/* ---- pages ---- */
+function home(){return `${SCR.length?"":`<div class="box empty"><div style="font-size:40px">🎃</div><p>No scripts yet. Log in and publish the first one.</p><a class="btn" href="#/submit">Submit script</a></div>`}<h1>Trick or Script, Erscripts?</h1><p class="sub2">Discover your next favorite Roblox script.</p><form id="hs" class="bar" novalidate><input class="in" id="hq" placeholder="Search scripts, games, creators" aria-label="Search scripts"><button class="btn" type="submit">Search</button></form>${stats()}`
++sotd()+sec("Newest","#/scripts",grid(by("ago",-1).slice(0,4).map(card)))
++sec("Trending","#/scripts",grid([...SCR].sort(SORTS.Trending).slice(0,4).map(card)))
++sec("From verified creators","#/scripts",grid(SCR.filter(s=>isVer(s.creator)).slice(0,4).map(card)))
++sec("Popular Games","#/games",grid(gamel().slice(0,4).map(g=>mini(g,"Game"))))
++sec("Recently Updated","#/scripts",grid(by("ago",-1).slice(4,8).map(card)))
++sec("Popular Hubs","#/hubs",grid(HUBS.slice(0,4).map(h=>mini(h,"Hub"))))
++sec("Universal scripts","",grid(SCR.filter(s=>s.uni).slice(0,4).map(card)))+sec("Discover More","",grid(by("favs",1).slice(0,4).map(card)))+sec("Top creators","",topCreators())}
+function listUI(){return `<div class="bar"><input class="in" id="q" placeholder="Search scripts, games, creators, categories" value="${esc(S.q)}"><select class="in" id="so" aria-label="Sort">${Object.keys(SORTS).map(k=>`<option ${k===S.sort?"selected":""}>${k}</option>`).join("")}</select>${S.q?`<button class="btn g" id="cl">Clear search</button>`:""}</div><div class="chips">${["All","Verified","Favorites","Universal","No key","Mobile",...CATS].map(c=>`<button class="chip ${c===S.cat?"on":""}" data-c="${c}">${c}</button>`).join("")}</div>`}
+function scripts(){let r=match(S.q).filter(catOk).sort(SORTS[S.sort]);const per=8,pn=Math.max(1,Math.ceil(r.length/per));S.page=Math.min(S.page,pn);
+const body=r.length?grid(r.slice((S.page-1)*per,S.page*per).map(card))+(pn>1?`<div class="pg">${Array.from({length:pn},(_,i)=>`<button class="${i+1===S.page?"on":""}" data-pg="${i+1}" aria-label="Page ${i+1}">${i+1}</button>`).join("")}</div>`:""):`<div class="empty"><div style="font-size:40px">🕸️</div><p>No scripts found${S.cat==="Favorites"?" in your favorites yet":""}. Try another word or clear the filters.</p></div>`;
+return `<h1>Scripts</h1>${listUI()}<p class="cr">${r.length} result${r.length==1?"":"s"}</p>${body}`}
+function simple(t,a,fn,hint){return `<h1>${t}</h1><div class="bar"><input class="in" id="ql" placeholder="Search ${t.toLowerCase()}"></div><div id="ll"></div>`}
+function listPage(t,arr,hint,note){const o=`<h1>${t}</h1>${note?`<div class="box">${note}</div>`:""}<div class="bar"><input class="in" id="ql" placeholder="Search ${t.toLowerCase()}"></div><div id="ll"></div>`;return {o,run(){const q=$("#ql");let pg=1;const draw=()=>{const v=q.value.toLowerCase();const r=arr.filter(x=>(x.name+(x.desc||x.sub||"")).toLowerCase().includes(v));const pn=Math.max(1,Math.ceil(r.length/6));pg=Math.min(pg,pn);$("#ll").innerHTML=(r.length?grid(r.slice((pg-1)*6,pg*6).map(x=>mini(x,hint))):`<div class="empty">${arr.length?"Nothing matches that search.":"Nothing here yet."}</div>`)+(pn>1?`<div class="pg">${Array.from({length:pn},(_,i)=>`<button class="${i+1===pg?"on":""}" data-p2="${i+1}">${i+1}</button>`).join("")}</div>`:"");$("#ll").querySelectorAll("[data-p2]").forEach(b=>b.onclick=()=>{pg=+b.dataset.p2;draw()})};q.oninput=()=>{pg=1;draw()};draw()}}}
+const gamel=()=>{const m={};SCR.forEach(s=>m[s.game]=(m[s.game]||0)+1);return Object.keys(m).sort((a,b)=>m[b]-m[a]).map((g,i)=>({name:g,sub:(m[g]||0)+" scripts",em:EM[i%8],hue:i*30}))};
+const code0=s=>`-- DEMO ONLY: placeholder text, not runnable code from a real creator\nlocal title = "${s.title.replace(/"/g,"'")}"\nlocal settings = { speed = 16, notify = true }\n\nfunction showMessage(text)\n  print("[${s.creator}] " .. text) -- shows a message in output\nend\n\nshowMessage("Loaded " .. title)\nreturn settings`;
+function hl(c){return esc(c).replace(/(--[^\n]*)/g,'<span class="c">$1</span>').replace(/(&quot;[^&]*?&quot;)/g,'<span class="s">$1</span>').replace(/\b(local|function|end|return|true|false|if|then)\b/g,'<span class="k">$1</span>').replace(/\b(\d+)\b/g,'<span class="n">$1</span>')}
+function detail(id){const s=SCR.find(x=>x.id==id);if(!s)return `<div class="empty err box">That script doesn’t exist or was removed. <a class="btn" href="#/scripts">Back to scripts</a></div>`;
+const cm=S.cm[id]||[];
+const avg=cm.length?(cm.reduce((a,c)=>a+c.r,0)/cm.length).toFixed(1):"–";const rel2=SCR.filter(x=>x.id!==s.id&&(x.game===s.game||x.cat===s.cat)).slice(0,4);
+return `<a href="#/scripts" class="cr">← All scripts</a><div class="th card" style="${s.img?`background:#000 url('${s.img}') center/cover`:bg(s.hue)};margin-top:8px;font-size:60px">${s.img?"":s.em}</div><h1 style="font-size:28px">${esc(s.title)}</h1><div class="gn">${esc(s.game)}</div>
+<div class="row" style="margin:8px 0"><span class="cr">by <a href="#/u/${encodeURIComponent(s.creator)}"><b>${esc(s.creator)}</b></a>${isVer(s.creator)?VB:""}</span><span class="st"><span>${ico("eye")}${fmt(s.views)}</span><span>${ico("heart")}${fmt(s.favs)}</span><span>Updated ${rel(s.ago)}</span></span></div>
+<div class="row" style="margin-bottom:8px">${tags(s)}</div><div class="row"><button class="btn ${S.fav.has(s.id)?"on":"g"}" id="fv" aria-pressed="${S.fav.has(s.id)}">${ico("heart")}${S.fav.has(s.id)?"Favorited":"Favorite"}</button><button class="btn g" id="sh">${ico("copy")}Share</button><button class="btn g" id="rp">${ico("flag")}Report</button>${ME&&ME.u===s.creator?`<button class="btn g" id="pt">${s.patched?"Mark as working":"Mark as patched"}</button><button class="btn g" id="dl" style="color:#ffb3b3">Delete</button>`:""}</div>
+<div class="box"><h3>Description</h3><p class="cr" style="margin:0;white-space:pre-wrap">${esc(s.desc||"")}</p></div>
+<div class="box"><h3>Compatibility</h3><p class="cr" style="margin:0">Not tested by Erscript. Check the creator’s description.</p></div>
+<div class="box"><h3>Code</h3>${s.ok?`<div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button class="btn g" id="cp">${ico("copy")}Copy code</button></div><pre class="code" id="cd">${hl(code(s))}</pre><p class="cr" style="margin:8px 0 0">Shown as text only. Erscript never runs submitted code.</p>`:`<p class="cr">Code is hidden: the creator hasn’t authorized copying for this script.</p>`}</div>
+<div class="box"><h3>Changelog</h3><p class="cr" style="margin:0">v1.0 · Published ${rel(s.ago)}</p></div>
+<div class="box"><h3>Comments · ★ ${avg} (${cm.length})</h3>${cm.map(c=>`<p class="cr"><b>${esc(c.u)}</b>${isVer(c.u)?VB:""} ${"★".repeat(c.r)}<br>${esc(c.t)}</p>`).join("")}<div class="bar"><select class="in" id="cr"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select><input class="in" id="ct" maxlength="200" placeholder="Add a comment"><button class="btn" id="cs">Post</button></div></div>
+${sec("Related scripts","",grid(rel2.map(card)))}`}
+function submit(){return `<h1>Submit script</h1><form id="sf" class="box" novalidate><p class="cr">Submissions are demo-only: nothing is saved or sent.</p><div class="bar"><input class="in" name="t" placeholder="Script title (3–60 characters)" maxlength="60"></div><div class="bar"><select class="in" name="g" style="width:100%"><option value="">Choose a game</option>${GAMES.map(g=>`<option>${g}</option>`).join("")}</select></div><div class="bar"><select class="in" name="c" style="width:100%"><option value="">Choose a category</option>${CATS.map(c=>`<option>${c}</option>`).join("")}</select></div><div class="bar"><textarea class="in" name="d" placeholder="Description (at least 20 characters)" maxlength="500"></textarea></div><div class="bar"><textarea class="in" name="k" placeholder="Code (stored as text, never executed)" style="font-family:monospace" maxlength="5000"></textarea></div><div id="er" class="cr" style="color:#ffb3b3" role="alert"></div><button class="btn" type="submit">Submit for review</button></form>`}
+function info(k){const t={terms:"Terms",privacy:"Privacy",discord:"Discord",api:"API"}[k]||"Info";return `<h1>${t}</h1><div class="box cr">This is a placeholder page for the demo. Connect a real backend to publish final ${t.toLowerCase()} content.</div>`}
+/* ---- router ---- */
+function route(){const h=cur(),a=$("#app");a.innerHTML=`<div class="grid">${'<div class="sk"></div>'.repeat(4)}</div>`;document.body.classList.toggle("cmp",S.cmp);scrollTo(0,0);side();
+setTimeout(()=>{try{
+if(h==="#/"||h===""){a.innerHTML=home();wireHome()}
+else if(h==="#/scripts"){a.innerHTML=scripts();wireList()}
+else if(h==="#/games"){const p=listPage("Games",gamel(),"Game");a.innerHTML=p.o;p.run()}
+else if(h==="#/hubs"){const p=listPage("Hubs",HUBS,"Hub");a.innerHTML=p.o;p.run()}
+else if(h==="#/tools"){const p=listPage("Executors & Tools",TOOLS,"Tool","<span class='tag ok'>Guide</span> = information only. <span class='tag w'>Download</span> = link to third-party software that Erscript doesn’t host or verify.");a.innerHTML=p.o;p.run()}
+else if(h==="#/community"){const p=listPage("Community",COMM,"Forum");a.innerHTML=p.o;p.run()}
+else if(h.startsWith("#/script/")){a.innerHTML=detail(h.slice(9));wireDetail(h.slice(9))}
+else if(h==="#/settings"){a.innerHTML=settingsPage();wireSettings()}else if(h.startsWith("#/u/")){userRoute(h.slice(4))}else if(h==="#/login"){a.innerHTML=authPage();wireAuth()}else if(h==="#/profile"){a.innerHTML=profilePage();wireProfile()}else if(h==="#/submit"){a.innerHTML=submit2();wireForm2()}
+else if(h==="#/creators"){a.innerHTML=creatorsPage();wireCreators()}
+else if(h.startsWith("#/info/"))a.innerHTML=info(h.slice(7));
+else a.innerHTML=`<div class="empty">Page not found. <a class="btn" href="#/">Go home</a></div>`;
+}catch(e){a.innerHTML=`<div class="box err">Something went wrong loading this page. <button class="btn" onclick="route()">Try again</button></div>`}},220)}
+function wireList(){const q=$("#q");q.oninput=()=>{S.q=q.value;S.page=1;const p=q.selectionStart;$("#app").innerHTML=scripts();wireList();$("#q").focus();$("#q").setSelectionRange(p,p)};$("#so").onchange=e=>{S.sort=e.target.value;S.page=1;$("#app").innerHTML=scripts();wireList()};
+const c=$("#cl");if(c)c.onclick=()=>{S.q="";S.cat="All";$("#app").innerHTML=scripts();wireList()};
+document.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{S.cat=b.dataset.c;S.page=1;$("#app").innerHTML=scripts();wireList()});
+document.querySelectorAll("[data-pg]").forEach(b=>b.onclick=()=>{S.page=+b.dataset.pg;$("#app").innerHTML=scripts();wireList();scrollTo(0,0)})}
+function wireDetail(id){id=+id;const f=$("#fv");if(!f)return;const sh=$("#sh");if(sh)sh.onclick=async()=>{try{await navigator.clipboard.writeText(location.href);toast("Link copied")}catch(e){toast("Couldn’t copy the link")}};viewOnce(id);f.onclick=()=>{const had=S.fav.has(id);had?S.fav.delete(id):S.fav.add(id);save();bump(id,"favs",had?-1:1);$("#app").innerHTML=detail(id);wireDetail(id)};
+$("#rp").onclick=async()=>{if(!DB)return toast("Reports only work on the shared page");try{await DB.doc("reports/"+id+"_"+Date.now()).set({sid:id,by:ME?ME.u:"guest",ts:Date.now()});toast("Report sent")}catch(e){toast("Couldn’t send the report")}};
+const pt=$("#pt");if(pt){pt.onclick=()=>{const s=SCR.find(x=>x.id==id);s.patched=!s.patched;try{if(DB)DB.doc("scripts/"+id).update({patched:s.patched}).catch(()=>{});else{const m=LS("ers_scr");if(m[id]){m[id].patched=s.patched;LW("ers_scr",m)}}}catch(e){}$("#app").innerHTML=detail(id);wireDetail(id)};$("#dl").onclick=async()=>{try{await delScript(id);toast("Deleted");location.hash="#/scripts"}catch(e){toast("Couldn’t delete")}}}
+const cp=$("#cp");if(cp)cp.onclick=async()=>{try{await navigator.clipboard.writeText(code(SCR.find(x=>x.id===id)));toast("Code copied")}catch(e){const r=document.createRange();r.selectNodeContents($("#cd"));getSelection().removeAllRanges();getSelection().addRange(r);toast("Press copy to finish")}};
+$("#cs").onclick=()=>{if(!ME){toast("Log in to comment");return}const t=$("#ct").value.trim();if(t.length<2){toast("Write a comment first");return}(S.cm[id]=S.cm[id]||[]).push({u:ME?ME.u:"guest",t,r:+$("#cr").value});$("#app").innerHTML=detail(id);wireDetail(id)}}
+function wireForm(){$("#sf").onsubmit=e=>{e.preventDefault();const d=new FormData(e.target),er=[];const t=(d.get("t")||"").trim();if(t.length<3)er.push("Title needs at least 3 characters.");if(!d.get("g"))er.push("Choose a game.");if(!d.get("c"))er.push("Choose a category.");if((d.get("d")||"").trim().length<20)er.push("Description needs at least 20 characters.");if(!(d.get("k")||"").trim())er.push("Paste your code as text.");
+$("#er").innerHTML=er.map(esc).join("<br>");if(!er.length){toast("Submitted for review (demo)");location.hash="#/scripts"}}}
+addEventListener("hashchange",()=>{sb(false);pop(null);route()});
+/* ---- accounts, storage, publishing ---- */
+let DB=null,ME=null;
+const safe=p=>/^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/.test(p||"")?p:"";
+const LS=k=>{try{return JSON.parse(localStorage.getItem(k)||"{}")||{}}catch(e){return{}}};
+const LW=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}};
+const code=s=>s.code||"";
+function norm(s){s.ago=Math.max(0,Math.round((Date.now()-(+s.ts||0))/60000));s.ver=false;s.ok=true;s.views=Math.max(0,+s.views||0);s.favs=Math.max(0,+s.favs||0);s.key=!!s.key;s.uni=!!s.uni;s.mob=!!s.mob;s.patched=!!s.patched;s.hue=Math.abs(+s.id||0)%360;s.em="🎃";s.img=safe(s.img);["title","game","cat","creator","desc","code"].forEach(k=>s[k]=String(s[k]||""));return s}
+const setScripts=a=>{SCR.length=0;a.map(norm).sort((x,y)=>y.ts-x.ts).forEach(s=>SCR.push(s))};
+const avatar=(a,z)=>{const st=z?`width:${z}px;height:${z}px;font-size:${Math.round(z/2.3)}px`:"";return a&&a.photo?`<img class="av" style="${st}" src="${a.photo}" alt="">`:`<span class="av" style="${st}">${a?esc((a.name[0]||"?").toUpperCase()):"?"}</span>`};
+const navAv=()=>{$('[data-p="user"]').innerHTML=avatar(ME)};
+const rsalt=()=>btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(16))));
+async function hash(p,salt){const k=await crypto.subtle.importKey("raw",new TextEncoder().encode(p),"PBKDF2",false,["deriveBits"]);const b=await crypto.subtle.deriveBits({name:"PBKDF2",salt:Uint8Array.from(atob(salt),c=>c.charCodeAt(0)),iterations:150000,hash:"SHA-256"},k,256);return btoa(String.fromCharCode(...new Uint8Array(b)))}
+function pic(f,w,h){return new Promise((ok,no)=>{if(!f||!f.type.startsWith("image/"))return no("Choose an image file.");const r=new FileReader();r.onload=()=>{const i=new Image();i.onload=()=>{const c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d"),k=Math.max(w/i.width,h/i.height),dw=i.width*k,dh=i.height*k;x.fillStyle="#17131B";x.fillRect(0,0,w,h);x.drawImage(i,(w-dw)/2,(h-dh)/2,dw,dh);ok(c.toDataURL("image/jpeg",.8))};i.onerror=()=>no("Couldn’t read that image.");i.src=r.result};r.onerror=()=>no("Couldn’t read that file.");r.readAsDataURL(f)})}
+async function getAcc(u){let a;if(DB){const d=await DB.doc("accounts/"+u).get();a=d.exists?{...d.data()}:null}else a=LS("ers_acc")[u]||null;if(a){a.photo=safe(a.photo);a.name=String(a.name||u)}return a}
+async function putAcc(a){if(DB)await DB.doc("accounts/"+a.u).set(a);else{const m=LS("ers_acc");m[a.u]=a;if(!LW("ers_acc",m))throw 0}}
+async function saveScript(s){if(DB)await DB.doc("scripts/"+s.id).set(s);else{const m=LS("ers_scr");m[s.id]=s;if(!LW("ers_scr",m))throw 0}SCR.unshift(norm({...s}))}
+function login(a){if(a.u===OWNER&&a.name!=="Devexploiter"){a.name="Devexploiter";putAcc(a).catch(()=>{})}ME=a;try{localStorage.setItem("ers_me",a.u)}catch(e){}navAv();side();refreshBadge()}
+function logout(){ME=null;try{localStorage.removeItem("ers_me")}catch(e){}pop(null);navAv();side();refreshBadge();toast("Logged out");location.hash="#/";route()}
+document.addEventListener("click",e=>{if(e.target.closest("[data-out]"))logout()});
+function rerender(){const h=cur();if(h==="#/"||h==="#/scripts"||h==="#/games")route()}
+function authPage(){return `<h1>Account</h1><div class="chips"><button class="chip on" data-m="in">Log in</button><button class="chip" data-m="up">Sign up</button></div><form id="af" class="box" novalidate><div id="nm" class="bar" style="display:none"><input class="in" name="n" placeholder="Your name (must be unique)" maxlength="30" autocomplete="name"></div><div class="bar"><input class="in" name="u" placeholder="Username" maxlength="20" autocomplete="username" autocapitalize="none"></div><div class="bar"><input class="in" name="p" type="password" placeholder="Password (8+ characters)" autocomplete="current-password"></div><div id="er" class="cr" style="color:#ffb3b3" role="alert"></div><button class="btn" id="ab" type="submit">Log in</button><p class="cr">${DB?"Accounts and scripts are shared with everyone who can open this page.":"Accounts and scripts are stored only in this browser."}</p></form>`}
+function wireAuth(){let up=false;document.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{up=b.dataset.m==="up";document.querySelectorAll("[data-m]").forEach(x=>x.classList.toggle("on",x===b));$("#nm").style.display=up?"flex":"none";$("#ab").textContent=up?"Create account":"Log in";$("#er").textContent=""});
+$("#af").onsubmit=async e=>{e.preventDefault();const d=new FormData(e.target),u=(d.get("u")||"").trim().toLowerCase(),p=d.get("p")||"",n=(d.get("n")||"").trim(),er=m=>{$("#er").textContent=m};
+if(!/^[a-z0-9_]{3,20}$/.test(u))return er("Username: 3–20 letters, numbers or underscores.");if(p.length<8)return er("Password needs at least 8 characters.");
+try{let a=await getAcc(u);if(up){if(a)return er("That username is taken.");if(nkey(u)===nkey(OWNER)&&u!==OWNER)return er("That username is reserved.");const nn=u===OWNER?"Devexploiter":n.slice(0,30);if(!nn)return er("Enter your name.");if(!nkey(nn))return er("Name needs letters or numbers.");if(!(await nameFree(nn,u)))return er("That name is already taken.");const salt=rsalt();a={u,name:nn,photo:"",salt,hash:await hash(p,salt)};await putAcc(a);await claimName(nn,u)}else if(!a||await hash(p,a.salt)!==a.hash)return er("Wrong username or password.");login(a);location.hash="#/profile"}catch(x){er("Couldn’t save or read your account. Try again.")}}}
+function profilePage(){if(!ME)return `<h1>Profile</h1><div class="box empty">Log in to see your profile.<br><br><a class="btn" href="#/login">Log in</a></div>`;const mine=SCR.filter(s=>s.creator===ME.u);return `<h1>Profile</h1><div class="box"><div class="row">${avatar(ME,64)}<div><b>${esc(ME.name)}</b>${isVer(ME.u)?VB:""}<div class="cr">@${esc(ME.u)}</div></div></div><div class="bar"><input class="in" id="pn" maxlength="30" value="${esc(ME.name)}" ${ME.u===OWNER?"readonly":""}><button class="btn" id="ps">Save name</button></div><label class="btn g">Change photo<input id="pf" type="file" accept="image/*" hidden></label></div>${sec("Your scripts","",grid(mine.map(card)))||'<div class="box cr">You haven’t published a script yet. <a href="#/submit" style="color:var(--or)">Submit one</a></div>'}`}
+function wireProfile(){if(!ME)return;$("#ps").onclick=async()=>{const n=$("#pn").value.trim();if(!n)return toast("Enter a name");if(await rename(n)){$("#app").innerHTML=profilePage();wireProfile()}};
+$("#pf").onchange=async e=>{try{ME.photo=await pic(e.target.files[0],128,128);await putAcc(ME);navAv();side();$("#app").innerHTML=profilePage();wireProfile()}catch(x){toast(typeof x==="string"?x:"Couldn’t save photo")}}}
+function submit2(){if(!ME)return `<h1>Submit script</h1><div class="box empty">Log in or sign up to publish a script.<br><br><a class="btn" href="#/login">Log in</a></div>`;return `<h1>Submit script</h1><form id="sf" class="box" novalidate><p class="cr">Publishing as <b>@${esc(ME.u)}</b>. Code is saved as text and never run.</p><div class="bar"><input class="in" name="t" placeholder="Script title (3–60 characters)" maxlength="60"></div><div class="bar"><input class="in" name="g" list="gl" placeholder="Roblox game name" maxlength="60"><datalist id="gl">${gamel().map(g=>`<option value="${esc(g.name)}">`).join("")}</datalist></div><div class="bar"><select class="in" name="c" style="width:100%"><option value="">Choose a category</option>${CATS.map(c=>`<option>${c}</option>`).join("")}</select></div><div class="row" style="margin:6px 0"><label><input type="checkbox" name="key"> Needs a key</label><label><input type="checkbox" name="uni"> Works in any game</label><label><input type="checkbox" name="mob"> Mobile friendly</label></div><label class="btn g">Add script photo<input id="tf" type="file" accept="image/*" hidden></label><div id="tp"></div><div class="bar"><textarea class="in" name="d" placeholder="Description (at least 20 characters)" maxlength="500"></textarea></div><div class="bar"><textarea class="in" name="k" placeholder="Code" style="font-family:monospace" maxlength="5000"></textarea></div><div id="er" class="cr" style="color:#ffb3b3" role="alert"></div><button class="btn" type="submit">Publish</button></form>`}
+function wireForm2(){if(!ME)return;let img="";$("#tf").onchange=async e=>{try{img=await pic(e.target.files[0],640,360);$("#tp").innerHTML=`<img src="${img}" alt="Photo preview" style="width:100%;border-radius:12px;margin-top:8px">`;$("#er").textContent=""}catch(x){$("#er").textContent=typeof x==="string"?x:"Couldn’t use that image."}};
+$("#sf").onsubmit=async e=>{e.preventDefault();const d=new FormData(e.target),er=[],title=(d.get("t")||"").trim(),game=(d.get("g")||"").trim(),cat=d.get("c")||"",desc=(d.get("d")||"").trim(),cd=(d.get("k")||"").trim();
+if(title.length<3)er.push("Title needs at least 3 characters.");if(!d.get("uni")&&game.length<2)er.push("Enter the game name.");if(!cat)er.push("Choose a category.");if(desc.length<20)er.push("Description needs at least 20 characters.");if(!cd)er.push("Paste your code.");
+$("#er").textContent=er.join(" ");if(er.length)return;const id=Date.now();try{await saveScript({id,title,game:d.get("uni")?"Universal":game,cat,desc,code:cd,creator:ME.u,ts:id,img,key:!!d.get("key"),uni:!!d.get("uni"),mob:!!d.get("mob"),patched:false,views:0,favs:0});toast("Published");location.hash="#/script/"+id}catch(x){$("#er").textContent="Couldn’t save. Try a smaller photo or shorter code."}}}
+async function init(){try{DB=window.claude?await Promise.race([claude.use("db"),new Promise(r=>setTimeout(()=>r(null),3000))]):null}catch(e){DB=null}
+let ok=false;if(DB){try{const q=await DB.collection("scripts").get();setScripts(q.docs.map(d=>({...d.data()})));let n=0;DB.collection("scripts").onSnapshot(s=>{setScripts(s.docs.map(d=>({...d.data()})));if(n++)rerender()},()=>{});ok=true}catch(e){DB=null}}
+if(!ok)setScripts(Object.values(LS("ers_scr")));
+try{const u=localStorage.getItem("ers_me");if(u)ME=await getAcc(u)}catch(e){}
+await loadExtra()}
+/* ---- extras: settings, creators, tags, counters ---- */
+const ACCS=["#FF7518","#3ddc84","#ff4fa3","#ff3b3b","#2ec5ff"];
+const applyAcc=()=>document.documentElement.style.setProperty("--or",S.acc||"#FF7518");
+const catOk=s=>{const c=S.cat;if(S.hp&&s.patched)return false;return c==="All"||(c==="Verified"?isVer(s.creator):c==="Favorites"?S.fav.has(s.id):c==="Universal"?s.uni:c==="No key"?!s.key:c==="Mobile"?s.mob:s.cat===c)};
+const tags=s=>[s.patched?'<span class="tag w">Patched</span>':'<span class="tag ok">Working</span>',s.key?'<span class="tag">Key required</span>':'<span class="tag ok">No key</span>',s.uni?'<span class="tag">Universal</span>':"",s.mob?'<span class="tag">Mobile</span>':""].join("");
+function topCreators(){const m={};SCR.forEach(s=>{const c=m[s.creator]=m[s.creator]||{n:0,v:0};c.n++;c.v+=s.views});const a=Object.entries(m).sort((x,y)=>y[1].v-x[1].v||y[1].n-x[1].n).slice(0,6);return a.length?`<div class="chips">${a.map(([u,c])=>`<a class="chip" href="#/u/${encodeURIComponent(u)}">@${esc(u)}${isVer(u)?VB:""} · ${c.n} script${c.n>1?"s":""}</a>`).join("")}</div>`:""}
+function bump(id,k,n){const s=SCR.find(x=>x.id==id);if(!s)return;s[k]=Math.max(0,s[k]+n);const v=s[k];try{if(DB)DB.doc("scripts/"+id).update({[k]:v}).catch(()=>{});else{const m=LS("ers_scr");if(m[id]){m[id][k]=v;LW("ers_scr",m)}}}catch(e){}}
+function viewOnce(id){const m=LS("ers_seen");if(m[id])return;m[id]=1;LW("ers_seen",m);bump(id,"views",1)}
+async function delScript(id){if(DB)await DB.doc("scripts/"+id).delete();else{const m=LS("ers_scr");delete m[id];LW("ers_scr",m)}const i=SCR.findIndex(x=>x.id==id);if(i>-1)SCR.splice(i,1)}
+async function userRoute(u){const a=$("#app"),n=decodeURIComponent(u).toLowerCase();let acc=null;try{acc=await getAcc(n)}catch(e){}const mine=SCR.filter(s=>s.creator===n);if(!acc&&!mine.length){a.innerHTML=`<div class="box empty">No creator found with that username.</div>`;return}
+const v=mine.reduce((t,s)=>t+s.views,0),f=mine.reduce((t,s)=>t+s.favs,0);a.innerHTML=`<div class="box"><div class="row">${avatar(acc||{name:n},64)}<div><b>${esc(acc?acc.name:n)}</b>${isVer(n)?VB:""}<div class="cr">@${esc(n)} · ${mine.length} script${mine.length==1?"":"s"} · ${fmt(v)} views · ${fmt(f)} favorites</div></div></div>${ME&&ME.u===OWNER&&n!==OWNER&&acc?`<div class="row" style="margin-top:10px"><button class="btn g" id="vt">${isVer(n)?"Remove verification":"Verify this account"}</button></div>`:""}</div>${grid(mine.map(card))||'<div class="empty">No scripts yet.</div>'}`;wireUser(n)}
+function settingsPage(){const sw=(id,l,c)=>`<label class="it" style="display:flex;gap:10px"><input type="checkbox" id="${id}" ${c?"checked":""}> ${l}</label>`;
+return `<h1>Settings</h1>`+(ME?`<div class="box"><h3>Account</h3><p class="cr">@${esc(ME.u)}${isVer(ME.u)?VB:""}</p><div class="bar"><input class="in" id="sn" maxlength="30" value="${esc(ME.name)}" ${ME.u===OWNER?"readonly":""}><button class="btn" id="sns">Save name</button></div></div>${verBox()}<div class="box"><h3>Change password</h3><div class="bar"><input class="in" id="p0" type="password" placeholder="Current password" autocomplete="current-password"></div><div class="bar"><input class="in" id="p1" type="password" placeholder="New password (8+ characters)" autocomplete="new-password"></div><div class="bar"><input class="in" id="p2" type="password" placeholder="Repeat new password" autocomplete="new-password"></div><div id="pe" class="cr" style="color:#ffb3b3" role="alert"></div><button class="btn" id="pc">Change password</button></div>`:`<div class="box cr">Log in to change your name and password. <a href="#/login" style="color:var(--or)">Log in</a></div>`)
++`<div class="box"><h3>Appearance</h3><div class="chips">${ACCS.map(c=>`<button class="chip" data-a="${c}" style="color:${c};${c===(S.acc||"#FF7518")?"border:3px solid #fff":""}" aria-label="Accent color ${c}">●</button>`).join("")}</div>`+sw("s1","Compact cards (one column)",S.cmp)+sw("s2","Floating particles",S.fx)+sw("s3","Hide patched scripts",S.hp)+`</div><div class="box"><h3>Data</h3><div class="row"><button class="btn g" id="cf">Clear favorites</button>`+(ME?`<button class="btn g" data-out="1">Log out</button><button class="btn g" id="da" style="color:#ffb3b3">Delete account</button>`:"")+`</div></div>`}
+function wireSettings(){const g=id=>$("#"+id);g("s1").onchange=e=>{S.cmp=e.target.checked;document.body.classList.toggle("cmp",S.cmp);save()};g("s2").onchange=e=>{S.fx=e.target.checked;save()};g("s3").onchange=e=>{S.hp=e.target.checked;save()};
+document.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>{S.acc=b.dataset.a;save();applyAcc();$("#app").innerHTML=settingsPage();wireSettings()});
+g("cf").onclick=()=>{S.fav.clear();save();toast("Favorites cleared")};if(!ME)return;wireVer();
+g("sns").onclick=async()=>{const n=g("sn").value.trim();if(!n)return toast("Enter a name");await rename(n)};
+g("pc").onclick=async()=>{const er=m=>{g("pe").textContent=m},p0=g("p0").value,p1=g("p1").value;try{const a=await getAcc(ME.u);if(!a||await hash(p0,a.salt)!==a.hash)return er("Current password is wrong.");if(p1.length<8)return er("New password needs at least 8 characters.");if(p1!==g("p2").value)return er("The new passwords don’t match.");if(p1===p0)return er("Choose a different password.");const salt=rsalt();a.salt=salt;a.hash=await hash(p1,salt);await putAcc(a);ME=a;er("");["p0","p1","p2"].forEach(i=>g(i).value="");toast("Password changed")}catch(e){er("Couldn’t save the new password.")}};
+let sure=0;g("da").onclick=async e=>{const b=e.target;if(!sure){sure=1;b.textContent="Tap again to confirm";setTimeout(()=>{sure=0;b.textContent="Delete account"},4000);return}
+try{for(const s of SCR.filter(x=>x.creator===ME.u))await delScript(s.id);await freeName(ME.name,ME.u);if(DB)await DB.doc("accounts/"+ME.u).delete();else{const m=LS("ers_acc");delete m[ME.u];LW("ers_acc",m)}logout()}catch(x){toast("Couldn’t delete the account")}}}
+/* ---- verified badge, unique names, verification requests ---- */
+const OWNER="devexploiter";
+const SEAL=(()=>{const p=[];for(let i=0;i<20;i++){const a=i*Math.PI/10-Math.PI/2,r=i%2?9.1:10.3;p.push((12+r*Math.cos(a)).toFixed(2)+","+(12+r*Math.sin(a)).toFixed(2))}return p.join(" ")})();
+const VB=`<svg class="vf" viewBox="0 0 24 24" role="img" aria-label="Verified"><title>Verified</title><polygon points="${SEAL}" fill="url(#vg)" stroke="url(#vg)" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="7.7" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width=".8"/><path d="M7.7 12.4l3 3 5.6-6.1" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/><path class="gl" d="M17.6 4.2l.55 1.6 1.6.55-1.6.55-.55 1.6-.55-1.6-1.6-.55 1.6-.55z" fill="#fff"/></svg>`;
+const nkey=s=>String(s).toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"").replace(/0/g,"o").replace(/[1i]/g,"l");
+const CREK=new Set(CRE.map(nkey));
+const VERS=new Set(),APPS={};
+const isVer=u=>u===OWNER||VERS.has(u);
+const setVers=a=>{VERS.clear();a.forEach(u=>u&&VERS.add(u))};
+const setApps=a=>{Object.keys(APPS).forEach(k=>delete APPS[k]);a.forEach(x=>{if(x&&x.u)APPS[x.u]=x})};
+async function nameFree(n,u){const k=nkey(n);if(!k)return false;if(k===nkey(OWNER)&&u!==OWNER)return false;if(CREK.has(k))return false;let r=null;if(DB){const d=await DB.doc("names/"+k).get();r=d.exists?d.data():null}else r=LS("ers_names")[k]||null;return !r||r.u===u}
+async function claimName(n,u){const k=nkey(n);if(DB)await DB.doc("names/"+k).set({u,n});else{const m=LS("ers_names");m[k]={u,n};if(!LW("ers_names",m))throw 0}}
+async function freeName(n,u){const k=nkey(n);try{if(DB){const d=await DB.doc("names/"+k).get();if(d.exists&&d.data().u===u)await DB.doc("names/"+k).delete()}else{const m=LS("ers_names");if(m[k]&&m[k].u===u){delete m[k];LW("ers_names",m)}}}catch(e){}}
+async function rename(n){n=n.slice(0,30);if(ME.u===OWNER){toast("The owner name is locked");return false}
+if(!nkey(n)){toast("Name needs letters or numbers");return false}
+try{const old=ME.name;if(!(await nameFree(n,ME.u))){toast("That name is already taken");return false}
+ME.name=n;await putAcc(ME);await claimName(n,ME.u);if(nkey(old)!==nkey(n))await freeName(old,ME.u);navAv();side();toast("Saved");return true}catch(e){toast("Couldn’t save");return false}}
+async function putApp(a){if(DB)await DB.doc("applications/"+a.u).set(a);else{const m=LS("ers_app");m[a.u]=a;if(!LW("ers_app",m))throw 0}APPS[a.u]=a}
+async function setVer(u,on){if(DB){const d=DB.doc("verified/"+u);on?await d.set({u,ts:Date.now()}):await d.delete()}else{const m=LS("ers_ver");on?m[u]=1:delete m[u];if(!LW("ers_ver",m))throw 0}on?VERS.add(u):VERS.delete(u)}
+async function loadExtra(){try{if(DB){const[v,p]=await Promise.all([DB.collection("verified").get(),DB.collection("applications").get()]);setVers(v.docs.map(d=>d.data().u));setApps(p.docs.map(d=>d.data()));let a=0,b=0;
+DB.collection("verified").onSnapshot(s=>{setVers(s.docs.map(d=>d.data().u));if(a++){refreshBadge();rerender()}},()=>{});
+DB.collection("applications").onSnapshot(s=>{setApps(s.docs.map(d=>d.data()));if(b++)refreshBadge()},()=>{})}else{setVers(Object.keys(LS("ers_ver")));setApps(Object.values(LS("ers_app")))}}catch(e){}
+if(ME){try{if(ME.u===OWNER&&ME.name!=="Devexploiter"){ME.name="Devexploiter";await putAcc(ME)}if(await nameFree(ME.name,ME.u))await claimName(ME.name,ME.u)}catch(e){}}}
+function pendCount(){if(!ME)return 0;if(ME.u===OWNER)return Object.values(APPS).filter(a=>a.status==="pending").length;const a=APPS[ME.u];return a&&a.ts2&&a.status!=="pending"&&LS("ers_nseen")[ME.u]!==a.ts2?1:0}
+function refreshBadge(){const b=$("#bd");if(!b)return;const n=pendCount();b.textContent=n;b.style.display=n?"grid":"none"}
+function markSeen(){if(ME&&ME.u!==OWNER&&APPS[ME.u]&&APPS[ME.u].ts2){const m=LS("ers_nseen");m[ME.u]=APPS[ME.u].ts2;LW("ers_nseen",m)}refreshBadge()}
+const ago2=t=>rel(Math.max(0,Math.round((Date.now()-t)/60000)));
+function notiHtml(){if(!ME)return `<div class="it">Log in to see notifications<small>Verification requests and updates show up here.</small></div>`;let h="";
+if(ME.u===OWNER){h=Object.values(APPS).filter(a=>a.status==="pending").sort((a,b)=>b.ts-a.ts).map(a=>`<div class="it"><b>Verification request</b><br><a href="#/u/${encodeURIComponent(a.u)}"><b>@${esc(a.u)}</b></a> (${esc(a.name)})<small>${ago2(a.ts)}</small><small style="color:var(--tx);white-space:pre-wrap;margin-top:4px">${esc(a.why)}</small>${a.link?`<small>${esc(a.link)}</small>`:""}<div class="row" style="margin-top:8px"><button class="btn" data-ap="${esc(a.u)}" data-d="approved">Approve</button><button class="btn g" data-ap="${esc(a.u)}" data-d="rejected">Reject</button></div></div>`).join("");return h||`<div class="it">No notifications yet<small>New verification requests will show up here.</small></div>`}
+const a=APPS[ME.u];if(a&&a.status==="pending")h=`<div class="it">Your verification request is in review<small>Devexploiter will decide soon.</small></div>`;
+else if(a&&a.ts2){const t={approved:"You’re verified! Your badge is live.",rejected:"Your verification request wasn’t approved this time.",revoked:"Your verification was removed."}[a.status];if(t)h=`<div class="it">${a.status==="approved"?VB+" ":""}${t}<small>${ago2(a.ts2)}</small></div>`}
+return h||`<div class="it">No notifications yet<small>Updates about your account show up here.</small></div>`}
+async function decide(u,st){const a=APPS[u];if(!a)return;try{if(st==="approved")await setVer(u,true);await putApp({...a,status:st,ts2:Date.now()});toast(st==="approved"?"@"+u+" is now verified":"Request rejected")}catch(e){toast("Couldn’t save. Open the page as the owner.")}pop("noti");refreshBadge()}
+function verBox(){if(!ME)return"";const h=t=>`<div class="box"><h3>Verification</h3>${t}</div>`;
+if(ME.u===OWNER)return h(`<p class="cr">${VB} You’re the owner of Erscript. Verification requests arrive in your notifications.</p>`);
+if(isVer(ME.u))return h(`<p class="cr">${VB} Your account is verified.</p>`);
+const a=APPS[ME.u];if(a&&a.status==="pending")return h(`<p class="cr">Your request is in review. You’ll get a notification when Devexploiter decides.</p>`);
+return h(`<p class="cr">Get the verified badge next to your name. Devexploiter reviews every request.</p>${a&&a.status==="rejected"?`<p class="cr" style="color:#ffb3b3">Your last request wasn’t approved. You can apply again.</p>`:""}<div class="bar"><textarea class="in" id="vw" maxlength="500" placeholder="Why should you be verified? (at least 20 characters)"></textarea></div><div class="bar"><input class="in" id="vl" maxlength="120" placeholder="Link to your Discord, YouTube or other profile (optional)"></div><div id="ve" class="cr" style="color:#ffb3b3" role="alert"></div><button class="btn" id="va">Apply for verification</button><p class="cr">Your request is stored with the page and visible to the owner. Don’t include private info.</p>`)}
+function wireVer(){const b=$("#va");if(!b)return;b.onclick=async()=>{const why=$("#vw").value.trim(),link=$("#vl").value.trim(),er=m=>{$("#ve").textContent=m};if(why.length<20)return er("Tell us a bit more (at least 20 characters).");try{await putApp({u:ME.u,name:ME.name,why:why.slice(0,500),link:link.slice(0,120),ts:Date.now(),status:"pending"});toast("Request sent to Devexploiter");$("#app").innerHTML=settingsPage();wireSettings();refreshBadge()}catch(e){er("Couldn’t send the request. Try again.")}}}
+function wireUser(n){const b=$("#vt");if(!b)return;b.onclick=async()=>{const on=!isVer(n);try{await setVer(n,on);const a=APPS[n];if(a&&(on?a.status==="pending":a.status==="approved"))await putApp({...a,status:on?"approved":"revoked",ts2:Date.now()});toast(on?"Verified":"Verification removed")}catch(e){toast("Couldn’t save. Open the page as the owner.")}refreshBadge();userRoute(encodeURIComponent(n))}}
+function stats(){const cr=new Set(SCR.map(s=>s.creator));return `<div class="stats">${[["Scripts",SCR.length],["Creators",cr.size],["Verified",new Set([OWNER,...VERS]).size],["Views",fmt(SCR.reduce((t,s)=>t+s.views,0))]].map(x=>`<div class="stat"><b>${x[1]}</b><span>${x[0]}</span></div>`).join("")}</div>`}
+function sotd(){if(!SCR.length)return"";const d=new Date(),k=d.getFullYear()*400+d.getMonth()*31+d.getDate(),s=[...SCR].sort((a,b)=>a.id-b.id)[k%SCR.length];return `<div class="sec"><h2>Script of the day</h2></div><div style="max-width:420px">${card(s)}</div>`}
+function wireHome(){const f=$("#hs");if(f)f.onsubmit=e=>{e.preventDefault();S.q=$("#hq").value.trim();S.page=1;S.cat="All";location.hash="#/scripts"}}
+function creatorList(){const m={};SCR.forEach(s=>{const c=m[s.creator]=m[s.creator]||{u:s.creator,n:0,v:0,f:0};c.n++;c.v+=s.views;c.f+=s.favs});VERS.forEach(u=>{m[u]=m[u]||{u,n:0,v:0,f:0}});return Object.values(m).sort((a,b)=>isVer(b.u)-isVer(a.u)||b.v-a.v||b.n-a.n)}
+function creatorsPage(){return `<h1>Creators</h1><p class="sub2">Verified creators come first.</p><div class="bar"><input class="in" id="cq" placeholder="Search creators" aria-label="Search creators"></div><div id="cl2"></div>`}
+function wireCreators(){const draw=()=>{const q=$("#cq").value.trim().toLowerCase(),r=creatorList().filter(c=>c.u.includes(q));$("#cl2").innerHTML=r.length?`<div class="grid">${r.map(c=>`<a class="card crow" href="#/u/${encodeURIComponent(c.u)}">${avatar({name:c.u},44)}<div><div class="ct" style="margin:0">@${esc(c.u)}${isVer(c.u)?VB:""}</div><div class="cr">${c.n} script${c.n==1?"":"s"} · ${fmt(c.v)} views</div></div></a>`).join("")}</div>`:`<div class="empty">No creators found.</div>`};$("#cq").oninput=draw;draw()}
+/* ---- particles ---- */
+(function(){const c=$("#fx"),x=c.getContext("2d");let P=[];const rs=()=>{c.width=innerWidth;c.height=innerHeight};rs();addEventListener("resize",rs);
+for(let i=0;i<26;i++)P.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.8+.5,v:Math.random()*.25+.05,o:i%3?"255,117,24":"139,69,198"});
+(function f(){x.clearRect(0,0,c.width,c.height);if(S.fx&&!matchMedia("(prefers-reduced-motion:reduce)").matches){P.forEach(p=>{p.y-=p.v;if(p.y<-5){p.y=c.height+5;p.x=Math.random()*c.width}x.fillStyle=`rgba(${p.o},.35)`;x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill()})}requestAnimationFrame(f)})()})();
+$("#app").innerHTML='<div class="grid">'+'<div class="sk"></div>'.repeat(4)+'</div>';
+init().then(()=>{applyAcc();navAv();refreshBadge();route()});
+</script></body></html>
