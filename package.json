@@ -1,0 +1,7 @@
+{
+  "name": "wave",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Wave: carica uno script, ricevi una load string.",
+  "engines": { "node": ">=18" }
+}
