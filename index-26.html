@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wave</title>
+<meta name="theme-color" content="#050d1c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%231f8bff'/%3E%3Cpath d='M6 22c4-8 7-8 9 0s5 8 9 0 6-8 10 0' stroke='white' stroke-width='3' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#f3f8ff;--fg:#0a1c36;--mut:#587091;--card:rgba(255,255,255,.7);--bd:rgba(20,90,180,.16);
+  --in:rgba(255,255,255,.7);--a:#1f8bff;--b:#00d4c8;--c:#7a6bff;color-scheme:light;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#050d1c;--fg:#e9f3ff;--mut:#88a2c6;--card:rgba(13,27,51,.62);--bd:rgba(120,180,255,.16);--in:rgba(5,13,28,.55);color-scheme:dark}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--fg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.38;animation:float 18s ease-in-out infinite alternate}
+.aurora i:nth-child(1){background:var(--a);top:-30vmax;right:-20vmax}
+.aurora i:nth-child(2){background:var(--b);bottom:-34vmax;left:-24vmax;animation-delay:-6s;opacity:.28}
+.aurora i:nth-child(3){background:var(--c);top:20vh;left:30vw;width:34vmax;height:34vmax;opacity:.16;animation-delay:-11s}
+@keyframes float{to{transform:translate(4vmax,3vmax) scale(1.08)}}
+main{position:relative;z-index:1;max-width:620px;margin:0 auto;padding:36px 20px 170px}
+nav{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.3px}
+nav svg{width:32px;height:32px}
+h1{font-size:clamp(52px,15vw,92px);line-height:.95;margin:48px 0 16px;letter-spacing:-.045em;font-weight:800;background:linear-gradient(105deg,var(--a) 10%,var(--b) 55%,var(--c));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:18px;line-height:1.55;color:var(--mut);margin:0 0 30px;max-width:440px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:28px;padding:22px;backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);box-shadow:0 30px 70px -35px rgba(31,139,255,.55),inset 0 1px 0 rgba(255,255,255,.08)}
+label.t{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1.6px;color:var(--mut);font-weight:700;margin:0 0 8px}
+.field{margin-bottom:18px}
+input[type=password],textarea,.out{width:100%;border:1px solid var(--bd);background:var(--in);color:var(--fg);border-radius:16px;padding:14px 16px;font-size:15px;outline:none;transition:border-color .2s,box-shadow .2s}
+input:focus,textarea:focus{border-color:var(--a);box-shadow:0 0 0 4px color-mix(in srgb,var(--a) 20%,transparent)}
+textarea{min-height:150px;resize:vertical;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre}
+.drop{display:flex;align-items:center;gap:12px;border:1.5px dashed var(--bd);border-radius:16px;padding:14px 16px;margin-bottom:10px;cursor:pointer;color:var(--mut);font-size:14px;transition:.2s}
+.drop:hover,.drop.on{border-color:var(--a);color:var(--fg);background:color-mix(in srgb,var(--a) 7%,transparent)}
+.drop svg{width:22px;height:22px;flex:none;color:var(--a)}
+.drop b{color:var(--fg);font-weight:600}
+input[type=file]{display:none}
+.btn{width:100%;border:0;border-radius:16px;padding:16px;font-size:16px;font-weight:700;color:#fff;cursor:pointer;background:linear-gradient(105deg,var(--a),var(--b));box-shadow:0 14px 30px -14px var(--a);transition:transform .15s,filter .15s}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.06)}
+.btn:active{transform:translateY(0)}
+.btn:disabled{opacity:.6;cursor:wait}
+.msg{min-height:20px;margin-top:12px;font-size:14px;color:var(--mut);text-align:center}
+.msg.err{color:#ff6b7a}
+.res{display:none;margin-top:20px;padding-top:20px;border-top:1px solid var(--bd)}
+.res.show{display:block;animation:in .45s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.out{display:block;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-all;user-select:all}
+.row{display:flex;gap:10px;margin-top:10px}
+.ghost{flex:1;border:1px solid var(--bd);background:transparent;color:var(--fg);border-radius:14px;padding:13px;font-weight:600;font-size:14px;cursor:pointer;transition:.2s}
+.ghost:hover{border-color:var(--a);background:color-mix(in srgb,var(--a) 8%,transparent)}
+.waves{position:fixed;left:0;right:0;bottom:0;height:150px;z-index:0;pointer-events:none;overflow:hidden}
+.waves svg{position:absolute;bottom:0;left:0;width:200%;height:100%;animation:sl linear infinite}
+.waves svg:nth-child(1){animation-duration:20s;opacity:.28}
+.waves svg:nth-child(2){animation-duration:13s;opacity:.4}
+.waves svg:nth-child(3){animation-duration:8s;opacity:.6}
+@keyframes sl{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.waves svg,.aurora i{animation:none}}
+</style>
+</head>
+<body>
+<div class="aurora"><i></i><i></i><i></i></div>
+
+<main>
+  <nav>
+    <svg viewBox="0 0 40 40" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1f8bff"/><stop offset="1" stop-color="#00d4c8"/></linearGradient></defs><rect width="40" height="40" rx="12" fill="url(#lg)"/><path d="M6 22c4-8 7-8 9 0s5 8 9 0 6-8 10 0" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>
+    Wave
+  </nav>
+
+  <h1>Wave</h1>
+  <p class="lead">Incolla il tuo codice o carica un file. Wave lo salva e ti restituisce la load string pronta da usare.</p>
+
+  <section class="card">
+    <div class="field">
+      <label class="t" for="pw">Password</label>
+      <input type="password" id="pw" autocomplete="current-password" placeholder="La tua password">
+    </div>
+
+    <div class="field">
+      <label class="t" for="code">Codice</label>
+      <label class="drop" id="drop" for="file">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+        <span id="dropTxt"><b>Scegli un file</b> oppure trascinalo qui</span>
+      </label>
+      <input type="file" id="file" accept=".lua,.txt,.luau,text/plain">
+      <textarea id="code" spellcheck="false" placeholder="-- oppure incolla qui il tuo script"></textarea>
+    </div>
+
+    <button class="btn" id="go">Genera load string</button>
+    <div class="msg" id="msg"></div>
+
+    <div class="res" id="res">
+      <label class="t">La tua load string</label>
+      <code class="out" id="out"></code>
+      <div class="row">
+        <button class="ghost" id="copy">Copia</button>
+        <button class="ghost" id="again">Nuovo caricamento</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="waves" aria-hidden="true">
+  <svg viewBox="0 0 1440 150" preserveAspectRatio="none"><path fill="#7a6bff" d="M0 70q90-50 180 0t180 0 180 0 180 0 180 0 180 0 180 0 180 0V150H0z"/></svg>
+  <svg viewBox="0 0 1440 150" preserveAspectRatio="none"><path fill="#00d4c8" d="M0 85q90-50 180 0t180 0 180 0 180 0 180 0 180 0 180 0 180 0V150H0z"/></svg>
+  <svg viewBox="0 0 1440 150" preserveAspectRatio="none"><path fill="#1f8bff" d="M0 100q90-45 180 0t180 0 180 0 180 0 180 0 180 0 180 0 180 0V150H0z"/></svg>
+</div>
+
+<script>
+(function(){
+  var $ = function(i){return document.getElementById(i)};
+  var msg=$('msg'), res=$('res'), out=$('out'), go=$('go'), drop=$('drop');
+
+  function say(t, err){ msg.textContent=t||''; msg.className='msg'+(err?' err':''); }
+
+  async function readFile(f){
+    if(!f) return;
+    if(f.size > 3*1024*1024){ say('File troppo grande (max 3 MB)', true); return; }
+    $('code').value = await f.text();
+    $('dropTxt').innerHTML = '<b>'+f.name.replace(/</g,'&lt;')+'</b> caricato';
+    say('');
+  }
+
+  $('file').addEventListener('change', function(e){ readFile(e.target.files[0]); });
+  ['dragenter','dragover'].forEach(function(t){ drop.addEventListener(t,function(e){e.preventDefault();drop.classList.add('on')}) });
+  ['dragleave','drop'].forEach(function(t){ drop.addEventListener(t,function(e){e.preventDefault();drop.classList.remove('on')}) });
+  drop.addEventListener('drop', function(e){ readFile(e.dataTransfer.files[0]); });
+
+  go.addEventListener('click', async function(){
+    var password = $('pw').value, content = $('code').value;
+    if(!password){ say('Inserisci la password', true); return; }
+    if(!content.trim()){ say('Aggiungi del codice o un file', true); return; }
+
+    go.disabled = true; say('Caricamento in corso...');
+    try{
+      var r = await fetch('/api/upload', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({password:password, content:content})
+      });
+      var d = await r.json().catch(function(){return {}});
+      if(!r.ok){ say(d.error || 'Errore durante il caricamento', true); go.disabled=false; return; }
+
+      out.textContent = 'loadstring(game:HttpGet("' + location.origin + '/raw/' + d.id + '"))()';
+      res.classList.add('show');
+      say('Fatto');
+    }catch(e){
+      say('Connessione non riuscita', true);
+    }
+    go.disabled = false;
+  });
+
+  $('copy').addEventListener('click', async function(){
+    try{ await navigator.clipboard.writeText(out.textContent); say('Copiata negli appunti'); }
+    catch(e){ say('Seleziona il testo e copialo a mano', true); }
+  });
+
+  $('again').addEventListener('click', function(){
+    res.classList.remove('show'); $('code').value=''; $('file').value='';
+    $('dropTxt').innerHTML='<b>Scegli un file</b> oppure trascinalo qui'; say('');
+  });
+})();
+</script>
+</body>
+</html>
